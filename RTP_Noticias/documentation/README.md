@@ -18,15 +18,18 @@ This project is a responsive web-based RSS reader for RTP (Rádio e Televisão d
 ```
 project-folder/
 │
-├── rtp.css           # Stylesheet (light/dark themes, layout, responsiveness)
-├── rtp.js            # JavaScript logic (RSS fetching, rendering, search, dark mode)
-└── README.md         # This file
+├── rtp.html                                          # html (News dashboard)
+├── rtp.css                                           # Stylesheet (light/dark themes, layout, responsiveness)
+├── rtp.js                                            # JavaScript logic (RSS fetching, rendering, search, dark mode)
+├── project-folder/
+     └── README.md                                    # This file
+     └── RTP_Noticias_Documentation.pdf               # project description (technologies used and required dependencies)
 ```
 
 ## 🚀 Getting Started
 
-1. **Clone or download** the repository.
-2. Open `index.html` in any modern web browser (no local server needed).
+1. Download the repository.
+2. Open `rtp.html` in any modern web browser (no local server needed).
 3. Click on the category buttons (e.g., Últimas, País, Mundo...) to load news.
 4. Use the moon icon 🌙 in the navbar to switch to dark mode.
 5. Use the search input to filter the articles as you type.

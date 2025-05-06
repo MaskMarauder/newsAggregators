@@ -21,7 +21,7 @@ project-folder/
 ├── rtp.html                                          # html (News dashboard)
 ├── rtp.css                                           # Stylesheet (light/dark themes, layout, responsiveness)
 ├── rtp.js                                            # JavaScript logic (RSS fetching, rendering, search, dark mode)
-├── project-folder/
+├── documentation-folder/
      └── README.md                                    # This file
      └── RTP_Noticias_Documentation.pdf               # project description (technologies used and required dependencies)
 ```

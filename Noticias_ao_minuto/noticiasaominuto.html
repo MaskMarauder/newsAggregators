@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Notícias ao Minuto</title>
+
+  <!-- External stylesheet for page styling -->
+  <link rel="stylesheet" href="noticiasaominuto.css">
+
+  <!-- Font Awesome CDN for icon support (e.g., moon icon) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation bar containing category links, dark mode toggle, and search bar -->
+  <div class="navbar">
+    
+    <!-- Navigation links for different news categories -->
+    <a href="#" id="menu-ultimaHora" onclick="loadCategory('ultimaHora')">Última Hora</a>
+    <a href="#" id="menu-politica" onclick="loadCategory('politica')">Política</a>
+    <a href="#" id="menu-economia" onclick="loadCategory('economia')">Economia</a>
+    <a href="#" id="menu-desporto" onclick="loadCategory('desporto')">Desporto</a>
+    <a href="#" id="menu-fama" onclick="loadCategory('fama')">Fama</a>
+    <a href="#" id="menu-pais" onclick="loadCategory('pais')">País</a>
+    <a href="#" id="menu-mundo" onclick="loadCategory('mundo')">Mundo</a>
+    <a href="#" id="menu-tecnologia" onclick="loadCategory('tecnologia')">Tecnologia</a>
+    <a href="#" id="menu-cultura" onclick="loadCategory('cultura')">Cultura</a>
+    <a href="#" id="menu-lifestyle" onclick="loadCategory('lifestyle')">Lifestyle</a>
+    <a href="#" id="menu-auto" onclick="loadCategory('auto')">Auto</a>
+
+    <!-- Dark mode toggle icon (aligned to the right using CSS) -->
+    <div class="navbar-right">
+      <i id="toggle-dark-mode" class="fas fa-moon"></i>
+    </div>
+
+    <!-- Search bar to filter news articles in real time -->
+    <input type="text" id="search-input" placeholder="Pesquisar Notícias" oninput="searchNews()" class="search-bar">
+  </div>
+
+  <!-- Loading indicator (shown when fetching data) -->
+  <div id="loading" style="display: none;">Loading...</div>
+
+  <!-- Main section where news articles will be rendered dynamically -->
+  <div id="news-section" class="news-container"></div>
+
+  <!-- JavaScript file containing logic to fetch and display news -->
+  <script src="noticiasaominuto.js"></script>
+</body>
+</html>
+

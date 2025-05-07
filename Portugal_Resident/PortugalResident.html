@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Portugal Resident</title>
+
+  <!-- External stylesheet for page styling -->
+  <link rel="stylesheet" href="PortugalResident.css">
+
+  <!-- Font Awesome CDN for icon support (e.g., moon icon) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation bar containing category links, dark mode toggle, and search bar -->
+  <div class="navbar">
+    
+    <!-- Navigation links for different news categories -->
+    <a href="#" id="menu-ultimaHora" onclick="loadCategory('ultimaHora')">Última Hora</a>
+    <a href="#" id="menu-algarve" onclick="loadCategory('algarve')">Algarve</a>
+    <a href="#" id="menu-portugal" onclick="loadCategory('portugal')">Portugal</a>
+    <a href="#" id="menu-world" onclick="loadCategory('world')">Mundo</a>
+    <a href="#" id="menu-opinion" onclick="loadCategory('opinion')">Opinião</a>
+    <a href="#" id="menu-lifestyle" onclick="loadCategory('lifestyle')">Lifestyle</a>
+    <a href="#" id="menu-environment" onclick="loadCategory('environment')">Ambiente</a>
+    <a href="#" id="menu-business" onclick="loadCategory('business')">Negócios</a>
+    
+
+    <!-- Dark mode toggle icon (aligned to the right using CSS) -->
+    <div class="navbar-right">
+      <i id="toggle-dark-mode" class="fas fa-moon"></i>
+    </div>
+
+    <!-- Search bar to filter news articles in real time -->
+    <input type="text" id="search-input" placeholder="Pesquisar Notícias" oninput="searchNews()" class="search-bar">
+  </div>
+
+  <!-- Loading indicator (shown when fetching data) -->
+  <div id="loading" style="display: none;">Loading...</div>
+
+  <!-- Main section where news articles will be rendered dynamically -->
+  <div id="news-section" class="news-container"></div>
+
+  <!-- JavaScript file containing logic to fetch and display news -->
+  <script src="PortugalResident.js"></script>
+</body>
+</html>
+

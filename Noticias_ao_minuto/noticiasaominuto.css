@@ -1,149 +1,225 @@
-/* Reset default margin and padding, and enable border-box model for consistency */
+/*
+  ------------------------------------------------------------------------------
+  GLOBAL STYLES (Applies to the entire page)
+  ------------------------------------------------------------------------------
+*/
+
+/* Reset default margin and padding for all elements */
+/* Enable the border-box model so that padding and border are included in the element's total width and height, making layout easier to manage. */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Base body styling */
+/*
+------------------------------------------------------------------------------
+BODY STYLES (Overall page appearance)
+------------------------------------------------------------------------------
+*/
+
+/* Base styles for the body element */
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f4f7fa; /* Light background color */
-  color: #000; /* Default text color */
-  padding-top: 60px; /* Leaves space for the fixed navbar */
-  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions for theme changes */
+  font-family: 'Segoe UI', sans-serif;  /* Use the Segoe UI font or a default sans-serif font */
+  background: #f4f7fa;                /* Set a light background color */
+  color: #000;                        /* Set the default text color to black */
+  padding-top: 60px;                    /* Add top padding to create space for the fixed navigation bar */
+
+  /* Smooth transitions for background color and text color when the theme changes */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Dark mode styles for the body */
 .dark-mode {
-  background-color: #121212;
-  color: #fff;
+  background-color: #121212;          /* Set a dark background color for dark mode */
+  color: #fff;                        /* Set the text color to white for dark mode */
 }
 
-/* NAVBAR STYLES */
+/*
+------------------------------------------------------------------------------
+NAVIGATION BAR (Navbar) STYLES
+------------------------------------------------------------------------------
+*/
+
+/* Styles for the fixed navigation bar */
 .navbar {
-  position: fixed;
+  position: fixed; /* Make the navbar stay at the top of the viewport even when scrolling */
   top: 0;
   left: 0;
-  width: 100%; /* Full width */
-  background-color: #333; /* Dark navbar background */
-  padding: 10px 20px;
-  z-index: 100; /* Ensure it stays above other content */
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap; /* Wrap items on small screens */
+  width: 100%;                          /* Make the navbar span the full width of its parent */
+  background-color: #333;             /* Set a dark background color for the navbar */
+  padding: 10px 20px;                   /* Add vertical and horizontal padding inside the navbar */
+  z-index: 100;                         /* Ensure the navbar stays on top of other content on the page */
+  display: flex;                        /* Use flexbox for layout of the navbar items */
+  align-items: center;                  /* Vertically align the items in the navbar */
+  flex-wrap: wrap;                      /* Allow items to wrap onto the next line on smaller screens */
+  justify-content: space-between;       /* Distribute space between navbar items */
 }
 
 /* Navbar links */
 .navbar a {
-  text-decoration: none;
-  color: white;
-  font-size: 1rem;
-  padding: 6px 12px;
-  border-radius: 5px;
-  transition: background 0.3s;
+  text-decoration: none;                /* Remove underlines from the links */
+  color: white;                       /* Set the text color of the links to white */
+  font-size: 1rem;                      /* Set the font size of the links */
+  padding: 6px 12px;                    /* Add padding around the link text */
+  border-radius: 5px;                   /* Add rounded corners to the link backgrounds */
+  transition: background 0.3s ease;     /* Smooth transition for the background color on hover/active */
 }
 
 /* Hover and active state for navbar links */
 .navbar a:hover,
 .navbar a.active {
-  background-color: #d00; /* Red background on hover */
+  background-color: #d00;             /* Set a red background color on hover and when the link is active */
 }
 
-/* DARK MODE TOGGLE ICON STYLING */
+/*
+------------------------------------------------------------------------------
+DARK MODE TOGGLE ICON STYLING
+------------------------------------------------------------------------------
+*/
+
+/* Styling for the right side of the navbar, containing the dark mode toggle */
 .navbar-right {
-  margin-left: auto; /* Pushes icon to the far right */
-  margin-right: 10px;
+  display: flex;                        /* Use flexbox to align the toggle icon and search bar */
+  align-items: center;                  /* Vertically align items */
+  margin-left: auto;                    /* Push the elements to the far right of the navbar */
+  margin-right: 10px;                   /* Add some right margin for spacing */
 }
 
 /* Styling for the moon icon */
 #toggle-dark-mode {
-  font-size: 20px;
-  cursor: pointer;
-  color: #fff;
-  transition: color 0.3s ease;
+  font-size: 20px;                      /* Set the size of the icon */
+  cursor: pointer;                      /* Change the cursor to a pointer on hover to indicate it's clickable */
+  color: #fff;                        /* Set the default color of the icon to white */
+  transition: color 0.3s ease;          /* Smooth transition for the icon color when the theme changes */
+  margin-left: 15px;                    /* Add some left margin to separate from search bar if present */
 }
 
-/* SEARCH BAR STYLING */
+/*
+------------------------------------------------------------------------------
+SEARCH BAR STYLES
+------------------------------------------------------------------------------
+*/
+
+/* Styling for the search input field */
 .search-bar {
-  padding: 6px 12px;
-  font-size: 1rem;
-  border-radius: 5px;
-  border: none;
-  max-width: 300px;
+  padding: 6px 12px;                    /* Add padding inside the search bar */
+  font-size: 1rem;                      /* Set the font size of the text in the search bar */
+  border-radius: 5px;                   /* Add rounded corners to the search bar */
+  border: none;                         /* Remove the default border of the search bar */
+  max-width: 200px;                     /* Set a maximum width for the search bar */
+  margin-left: 10px;                    /* Add some left margin to separate from other navbar items */
 }
 
-/* NEWS SECTION STYLING */
+/*
+------------------------------------------------------------------------------
+NEWS SECTION STYLES
+------------------------------------------------------------------------------
+*/
+
+/* Styling for the container of the news cards */
 .news-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive card grid */
-  gap: 20px;
-  padding: 20px;
+  display: grid;                        /* Use CSS Grid for a responsive layout of news cards */
+
+  /* Create columns that automatically adjust to fit the container, with a minimum width of 300px 
+    and expanding to fill available space */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;                            /* Add spacing between the news cards */
+  padding: 20px;                        /* Add padding around the news container */
 }
 
-/* Individual news card */
+/* Styling for each individual news card */
 .news-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 16px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  background: #fff;                   /* Set a white background for the card */
+  border: 1px solid #ddd;             /* Add a light gray border around the card */
+  border-radius: 10px;                  /* Add rounded corners to the card */
+  padding: 16px;                        /* Add padding inside the card */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* Add a subtle box shadow for depth */
+
+  /* Smooth transitions for transform (hover effect), background color, and text color */
   transition: transform 0.3s, background-color 0.3s ease, color 0.3s ease;
-  cursor: pointer;
+
+  cursor: pointer;                      /* Change the cursor to a pointer on hover to indicate it's clickable */
 }
 
-/* Dark mode styles for news cards */
+/* Dark mode styles for the news cards */
 .dark-mode .news-card {
-  background-color: #1e1e1e;
-  border-color: #444;
+  background-color: #1e1e1e;          /* Set a dark background color for cards in dark mode */
+  border-color: #444;                 /* Set a darker border color for cards in dark mode */
 }
 
 /* Card hover effect */
 .news-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.02);               /* Slightly increase the size of the card on hover */
 }
 
-/* News title styling */
+/* Styling for the title of the news article */
 .news-title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #1a0dab; /* Google-like link blue */
-  margin-bottom: 10px;
+  font-size: 1.1rem;                    /* Set a slightly larger font size for the title */
+  font-weight: 600;                     /* Make the title text bold */
+  color: #1a0dab;                     /* Set a blue color, similar to Google link colors */
+  margin-bottom: 10px;                  /* Add some space below the title */
 }
 
 /* Dark mode title color */
 .dark-mode .news-title {
-  color: #8ab4f8;
+  color: #8ab4f8;                     /* Set a lighter blue color for the title in dark mode */
 }
 
-/* News description styling */
+/* Styling for the description of the news article */
 .news-description {
-  font-size: 0.95rem;
-  color: #555;
-  margin-bottom: 12px;
+  font-size: 0.95rem;                   /* Set a slightly smaller font size for the description */
+  color: #555;                        /* Set a gray color for the description text */
+  margin-bottom: 12px;                  /* Add some space below the description */
 }
 
 /* Dark mode description color */
 .dark-mode .news-description {
-  color: #ccc;
+  color: #ccc;                        /* Set a light gray color for the description in dark mode */
 }
 
-/* News source styling (smaller and aligned right) */
+/* Styling for the source of the news (smaller text, right alignment) */
 .news-source {
-  font-size: 0.8rem;
-  color: #888;
-  text-align: right;
+  font-size: 0.8rem;                    /* Set a smaller font size for the source */
+  color: #888;                        /* Set a light gray color for the source text */
+  text-align: right;                    /* Align the source text to the right */
 }
 
 /* Dark mode source color */
 .dark-mode .news-source {
-  color: #aaa;
+  color: #aaa;                        /* Set a slightly lighter gray color for the source in dark mode */
 }
 
-/* Responsive design: single column on small screens */
+/*
+------------------------------------------------------------------------------
+RESPONSIVE DESIGN (Media Queries)
+------------------------------------------------------------------------------
+*/
+
+/* Media query for screens with a maximum width of 768px (typical for tablets and smaller) */
 @media (max-width: 768px) {
+  /* On smaller screens, make the news container display news cards in a single column */
   .news-container {
-    grid-template-columns: 1fr;
+      grid-template-columns: 1fr;       /* Single column layout */
+  }
+
+  /* Adjust navbar layout on smaller screens */
+  .navbar {
+      flex-direction: column;           /* Stack items vertically */
+      align-items: flex-start;          /* Align items to the left */
+  }
+
+  .navbar-right {
+      margin-left: 0;                   /* Reset left margin */
+      margin-top: 10px;                 /* Add top margin for spacing */
+      width: 100%;                      /* Take full width */
+      display: flex;
+      justify-content: space-between;   /* Distribute space between icon and search */
+      margin-right: 0;                  /* Reset right margin */
+  }
+
+  .search-bar {
+      max-width: 100%;                  /* Make search bar take full width */
+      margin-left: 0;                   /* Reset left margin */
   }
 }
-

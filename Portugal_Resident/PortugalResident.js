@@ -1,150 +1,193 @@
-// Dictionary of RSS feed categories and their corresponding Notícias ao Minuto URLs
+// Object (like a dictionary or map) that stores the URLs of the RSS feeds
+// for different news categories from the Portugal Resident website.
+// The 'key' of each entry is the category name (in English), and the 'value'
+// is the web address (URL) of the RSS feed corresponding to that category.
 const feeds = {
-  'ultimaHora': 'https://www.noticiasaominuto.com/rss/ultima-hora',   // URL for the latest news feed
-  'politica': 'https://www.noticiasaominuto.com/rss/politica',        // URL for politics news
-  'economia': 'https://www.noticiasaominuto.com/rss/economia',        // URL for economics news
-  'desporto': 'https://www.noticiasaominuto.com/rss/desporto',        // URL for sports news
-  'fama': 'https://www.noticiasaominuto.com/rss/fama',                // URL for celebrity news
-  'pais': 'https://www.noticiasaominuto.com/rss/pais',                // URL for news about Portugal (country)
-  'mundo': 'https://www.noticiasaominuto.com/rss/mundo',              // URL for world news
-  'tecnologia': 'https://www.noticiasaominuto.com/rss/tech',          // URL for technology news
-  'cultura': 'https://www.noticiasaominuto.com/rss/cultura',          // URL for culture news
-  'lifestyle': 'https://www.noticiasaominuto.com/rss/lifestyle',      // URL for lifestyle news
-  'auto': 'https://www.noticiasaominuto.com/rss/auto'                 // URL for automotive news
+  'ultimaHora': 'https://www.portugalresident.com/feed',                      // URL of the feed with the latest news.
+  'algarve': 'https://www.portugalresident.com/category/algarve/feed/',       // URL of the news feed for the Algarve region.
+  'portugal': 'https://www.portugalresident.com/category/portugal/feed/',     // URL of the news feed about Portugal.
+  'world': 'https://www.portugalresident.com/category/world/feed/',           // URL of the world news feed.
+  'opinion': 'https://www.portugalresident.com/category/opinion/feed/',       // URL of the opinion articles feed.
+  'lifestyle': 'https://www.portugalresident.com/category/lifestyle/feed/',   // URL of the lifestyle news feed.
+  'environment': 'https://www.portugalresident.com/category/nature/feed/',    // URL of the environment/nature news feed.
+  'business': 'https://www.portugalresident.com/category/business/feed/'      // URL of the business news feed.
 };
 
-// Object to cache (store temporarily) previously loaded categories to improve performance.
-// This avoids making redundant (unnecessary) API calls if the user revisits the same category.
+// Object to store the HTML content of news categories that have already been loaded.
+// This serves as a 'cache' to avoid making repeated API (server) calls
+// if the user clicks on the same category again, improving performance.
 const loadedCategories = {};
 
-// Asynchronous function to load news for a given category.
-// 'async' allows the use of 'await' inside the function for handling promises.
+// Asynchronous function (async) to load the news for a given category.
+// The keyword 'async' indicates that this function may contain operations that take time,
+// and that JavaScript should not stop executing while waiting for them.
 async function loadCategory(category) {
-  // Show the loading spinner element to indicate that data is being fetched.
+  // Displays the visual 'loading...' indicator to inform the user
+  // that something is happening in the background.
   document.getElementById('loading').style.display = 'block';
 
-  // Remove the "active" class from all navigation bar links.
-  // This ensures that only the currently selected category's link is visually highlighted.
+  // Removes the 'active' class from all navigation links in the menu bar.
+  // This is done to unmark any category that was previously selected.
   document.querySelectorAll('.navbar a').forEach(link => link.classList.remove('active'));
 
-  // Add the "active" class to the navigation link of the selected category.
-  // This visually indicates to the user which category they are currently viewing.
+  // Adds the 'active' class to the navigation link of the category that was clicked.
+  // This visually highlights the category that the user is viewing.
   const activeLink = document.getElementById('menu-' + category);
   if (activeLink) activeLink.classList.add('active');
 
-  // If the news for this category has already been loaded and stored in the cache,
-  // display the cached HTML and hide the loading spinner.
+  // Checks if the HTML content for this category has already been loaded and is in the 'cache'.
   if (loadedCategories[category]) {
+      // If it's already loaded, simply displays the stored content
+      // in the news section and hides the loading indicator.
       document.getElementById('news-section').innerHTML = loadedCategories[category];
       document.getElementById('loading').style.display = 'none';
-      return; // Exit the function early since the content is already available.
+      // The 'return' statement here makes the function stop executing,
+      // as we already have what we need.
+      return;
   }
 
-  // Use the AllOrigins API as a CORS proxy to bypass Cross-Origin Resource Sharing (CORS) restrictions
-  // when fetching the external RSS feed from Notícias ao Minuto. 'encodeURIComponent' ensures the URL is properly formatted.
+  // Constructs the URL to fetch the RSS feed for the category.
+  // As some websites may block requests from other domains (Cross-Origin),
+  // we use a 'CORS proxy' (api.allorigins.win) to mediate the request.
+  // 'encodeURIComponent' ensures that the feed URL is correctly encoded
+  // to be used within another URL.
   const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(feeds[category])}`;
+
   try {
-      // Fetch the RSS feed data from the constructed URL.
-      // 'await' pauses the execution of this function until the Promise returned by 'fetch' resolves.
+      // 'fetch' is a modern function for making HTTP requests (fetching data from the web).
+      // 'await' pauses the execution of this function until the Promise returned by 'fetch' is resolved
+      // (i.e., the server's response arrives).
       const res = await fetch(url);
-      // Get the response body as text (which will be the XML content of the RSS feed).
+      // 'res.text()' also returns a Promise that resolves to the content of the response as text (XML in this case).
       const text = await res.text();
 
-      // Parse the XML response using the DOMParser API.
-      // This converts the XML text into a Document Object Model (DOM) tree that can be easily traversed.
+      // Creates a 'DOMParser' object to analyze the XML content of the RSS feed.
+      // The DOM (Document Object Model) represents the structure of the XML as a tree of objects.
       const parser = new DOMParser();
       const xml = parser.parseFromString(text, 'application/xml');
-      // Select the first 25 '<item>' elements from the XML, which typically represent individual news articles.
-      // 'querySelectorAll' returns a NodeList, which is converted to an Array using 'Array.from'
-      // so that we can use the 'slice' method to take only the first 25 items.
-      const items = Array.from(xml.querySelectorAll('item')).slice(0, 25); // Take the first 25 items
 
-      // Build the HTML structure for each news item extracted from the RSS feed.
-      // The 'map' function iterates over the 'items' array and creates a new array of HTML strings.
+      // Selects the first 25 '<item>' elements from the XML, which represent the news articles.
+      // 'querySelectorAll' returns a list of all elements that match the selector ('item').
+      // 'Array.from' converts this list into an array so that we can use array methods like 'slice'.
+      // 'slice(0, 25)' gets the elements from index 0 up to (but not including) index 25.
+      const items = Array.from(xml.querySelectorAll('item')).slice(0, 25);
+
+      // 'map' is an array method that creates a new array with the results of calling a function
+      // on each element of the original array. Here, we transform each news item into its HTML.
       const html = items.map(item => {
-          // Extract the title of the news article from the '<title>' element.
-          // The '?' (optional chaining) handles cases where the element might be missing.
-          // 'textContent' gets the text content of the element, and '|| '' ensures an empty string if no title is found.
+          // Extracts the title of the news article from the '<title>' element.
+          // The '?' operator (optional chaining) prevents errors if the '<title>' element does not exist.
+          // If the title does not exist, we use an empty string ('').
           const title = item.querySelector('title')?.textContent || '';
-          // Extract the description of the news article from the '<description>' element and remove any HTML tags within it.
+
+          // Extracts the description of the news article from the '<description>' element.
+          // 'textContent' gets only the text inside the HTML tags.
+          // 'replace(/<[^>]*>/g, '')' uses a regular expression to remove any HTML tags
+          // that might be inside the description.
+          // Again, we use '?' to prevent errors and '' as a default value.
           const description = item.querySelector('description')?.textContent?.replace(/<[^>]*>/g, '') || '';
-          // Extract the link (URL) of the news article from the '<link>' element, defaulting to '#' if no link is found.
+
+          // Extracts the link of the news article from the '<link>' element.
+          // If the link does not exist, we use '#' as a default link that goes nowhere.
           const link = item.querySelector('link')?.textContent || '#';
 
-          // Return the HTML structure for a single news card, which includes the title, a truncated description, and the source.
-          // The 'onclick' event handler will open the news link in a new browser tab when the card is clicked.
+          // Returns the HTML structure to display a single news article in a 'card'.
+          // The 'onclick' function makes the browser window open the news link
+          // in a new tab ('_blank') when the card is clicked.
           return `
               <div class="news-card" onclick="window.open('${link}', '_blank')">
                   <div class="news-title">${title}</div>
                   <div class="news-description">${description.slice(0, 150)}...</div>
-                  <div class="news-source">Noticias ao minuto - ${category.charAt(0).toUpperCase() + category.slice(1)}</div>
+                  <div class="news-source">Portugal Resident - ${category.charAt(0).toUpperCase() + category.slice(1)}</div>
               </div>`;
-      }).join(''); // Join all the individual news card HTML strings together into a single HTML string.
+      }).join(''); // 'join('')' concatenates all the HTML strings in the array into a single string.
 
-      // Cache the generated HTML for the loaded category.
+      // Stores the generated HTML for this category in the 'loadedCategories' object (cache).
       loadedCategories[category] = html;
-      // Set the inner HTML of the 'news-section' element to display the fetched and formatted news.
+
+      // Updates the content of the news section ('news-section') in the HTML
+      // with the news HTML that we just fetched and formatted.
       document.getElementById('news-section').innerHTML = html;
-      // Hide the loading spinner since the news has been successfully loaded and displayed.
+
+      // Hides the 'loading...' indicator since the data has been loaded.
       document.getElementById('loading').style.display = 'none';
 
   } catch (err) {
-      // Error handling block that runs if any error occurs during the fetching or processing of the RSS feed.
-      // Display an error message to the user with a button to retry loading the category.
+      // If any error occurs during the fetching or processing of the data (for example,
+      // if the server does not respond or if there is a problem with the XML),
+      // this 'catch' block will be executed.
+
+      // Displays an error message in the news section, including a button to try reloading.
       document.getElementById('news-section').innerHTML = `<p>Error loading news. <button onclick="loadCategory('${category}')">Reload</button></p>`;
-      // Log the error to the browser's console for debugging purposes.
+
+      // Prints the error to the browser's console to help with debugging (finding and fixing problems).
       console.error('RSS Error:', err);
   }
 }
 
-// Load the "ultimaHora" (latest news) category by default when the page first loads.
-loadCategory('ultimaHora');
-
-// Event listener for the dark mode toggle button.
-// When the button is clicked, the provided function will be executed.
+// Adds an 'event listener' to the dark mode toggle button.
+// When the button is clicked ('click'), the function inside '{}' will be executed.
 document.getElementById('toggle-dark-mode').addEventListener('click', () => {
-  // Get references to the body element and the toggle icon element.
+  // Gets a reference to the 'body' element of the HTML document.
   const body = document.body;
+  // Gets a reference to the icon element (presumably a moon or sun icon).
   const icon = document.getElementById('toggle-dark-mode');
 
-  // Toggle the 'dark-mode' class on the body element.
-  // This will apply or remove the dark mode styles defined in the CSS.
+  // 'classList' allows you to manipulate the CSS classes of an element.
+  // 'toggle('dark-mode')' adds the 'dark-mode' class if it doesn't exist,
+  // and removes it if it already exists, toggling the dark mode.
   body.classList.toggle('dark-mode');
 
-  // Check if the body element now contains the 'dark-mode' class.
+  // Checks if the body of the page now contains the 'dark-mode' class.
   if (body.classList.contains('dark-mode')) {
-      // If dark mode is enabled, remove the moon icon class and add the sun icon class
-      // (assuming a library like Font Awesome is being used for icons).
+      // If in dark mode, removes the 'fa-moon' class (moon icon)
+      // and adds the 'fa-sun' class (sun icon), assuming we are using
+      // an icon library like Font Awesome.
       icon.classList.remove('fa-moon');
       icon.classList.add('fa-sun');
-      // Set the color of the sun icon to gold.
-      icon.style.color = '#ffd700'; // Sun color
+      // Sets the color of the icon to gold to represent the sun.
+      icon.style.color = '#ffd700';
   } else {
-      // If dark mode is disabled (light mode), remove the sun icon class
-      // and add the moon icon class.
+      // If not in dark mode (light mode), removes the 'fa-sun' class
+      // and adds the 'fa-moon' class.
       icon.classList.remove('fa-sun');
       icon.classList.add('fa-moon');
-      // Set the color of the moon icon to white (or the default moon color).
-      icon.style.color = '#fff'; // Default moon color
+      // Sets the color of the icon to white to represent the moon.
+      icon.style.color = '#fff';
   }
 });
 
-// Search functionality to filter news articles based on the user's input in the search bar.
+// Function to search news based on what the user types in the search bar.
 function searchNews() {
-  // Get the value from the search input field, convert it to lowercase for case-insensitive searching.
+  // Gets the text typed in the input box with the ID 'search-input'.
+  // '.value' gets the current value of the input, and '.toLowerCase()' converts it to lowercase
+  // so that the search is not case-sensitive.
   const query = document.getElementById('search-input').value.toLowerCase();
-  // Select all elements with the class 'news-card', which represent individual news articles in the UI.
+
+  // Selects all HTML elements with the class 'news-card', which are the containers
+  // for each displayed news article.
   const newsCards = document.querySelectorAll('.news-card');
 
-  // Iterate over each news card element.
+  // 'forEach' is an array method that allows you to execute a function for each element of the array.
+  // Here, we iterate through each 'news-card'.
   newsCards.forEach(card => {
-      // Get the text content of the news title and convert it to lowercase.
+      // Inside each card, we select the element with the class 'news-title' (news title)
+      // and get its text, converting it to lowercase.
       const title = card.querySelector('.news-title').textContent.toLowerCase();
-      // Get the text content of the news description and convert it to lowercase.
+
+      // We do the same for the element with the class 'news-description' (news description).
       const description = card.querySelector('.news-description').textContent.toLowerCase();
 
-      // Show the news card only if the search query is found in either the title or the description.
-      // 'includes()' returns true if the string contains the specified substring.
+      // Checks if the title OR the description of the news article (using the '||' - OR logical operator)
+      // includes the 'query' (the text the user typed).
+      // 'includes()' is a string method that returns 'true' if the string contains the specified substring.
+
+      // If the title or the description contains the query, we set the 'display' style of the card to 'block',
+      // making it visible. Otherwise, we set it to 'none', hiding it.
       card.style.display = (title.includes(query) || description.includes(query)) ? 'block' : 'none';
   });
 }
+
+// Calls the 'loadCategory' function with the 'ultimaHora' category when the page loads.
+// This makes the latest news appear by default as soon as the user accesses the page.
+loadCategory('ultimaHora');

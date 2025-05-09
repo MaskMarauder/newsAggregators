@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Expresso</title>
+
+  <!-- External stylesheet for page styling -->
+  <link rel="stylesheet" href="Expresso.css">
+
+  <!-- Font Awesome CDN for icon support (e.g., moon icon) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navigation bar containing category links, dark mode toggle, and search bar -->
+  <div class="navbar">
+    
+    <!-- Navigation links for Geral news category -->
+    <a href="#" id="menu-geral" onclick="loadCategory('Geral')">Geral</a>
+
+    <!-- Dark mode toggle icon (aligned to the right using CSS) -->
+    <div class="navbar-right">
+      <i id="toggle-dark-mode" class="fas fa-moon"></i>
+    </div>
+
+    <!-- Search bar to filter news articles in real time -->
+    <input type="text" id="search-input" placeholder="Pesquisar Notícias" oninput="searchNews()" class="search-bar">
+  </div>
+
+  <!-- Loading indicator (shown when fetching data) -->
+  <div id="loading" style="display: none;">Loading...</div>
+
+  <!-- Main section where news articles will be rendered dynamically -->
+  <div id="news-section" class="news-container"></div>
+
+  <!-- JavaScript file containing logic to fetch and display news -->
+  <script src="Expresso.js"></script>
+</body>
+</html>
+

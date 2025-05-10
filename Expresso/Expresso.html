@@ -14,17 +14,33 @@
 
   <!-- Navigation bar containing category links, dark mode toggle, and search bar -->
   <div class="navbar">
-    
-    <!-- Navigation links for Geral news category -->
-    <a href="#" id="menu-geral" onclick="loadCategory('Geral')">Geral</a>
 
-    <!-- Dark mode toggle icon (aligned to the right using CSS) -->
+    <!-- Hamburger icon (visible on small screens only) -->
+    <div class="hamburger" onclick="toggleMenu()">
+
+      <i class="fas fa-bars"></i>
+
+    </div>
+    
+    <!-- Navigation links (shown normally on desktop, toggled on mobile) -->
+    <div class="nav-links" id="nav-links">
+
+      <!-- Navigation links for Geral news category -->
+      <a href="#" id="menu-geral" onclick="loadCategory('Geral')">Geral</a>
+
+    </div>
+    
+    <!-- Right-aligned section with dark mode toggle and search bar -->
     <div class="navbar-right">
+
+      <!-- Dark mode toggle icon -->
       <i id="toggle-dark-mode" class="fas fa-moon"></i>
+
+      <!-- Search bar to filter news articles in real time -->
+      <input type="text" id="search-input" placeholder="Pesquisar Notícias" oninput="searchNews()" class="search-bar">
+
     </div>
 
-    <!-- Search bar to filter news articles in real time -->
-    <input type="text" id="search-input" placeholder="Pesquisar Notícias" oninput="searchNews()" class="search-bar">
   </div>
 
   <!-- Loading indicator (shown when fetching data) -->

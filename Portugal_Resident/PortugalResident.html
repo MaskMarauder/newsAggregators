@@ -14,25 +14,36 @@
 
   <!-- Navigation bar containing category links, dark mode toggle, and search bar -->
   <div class="navbar">
-    
-    <!-- Navigation links for different news categories -->
-    <a href="#" id="menu-ultimaHora" onclick="loadCategory('ultimaHora')">Última Hora</a>
-    <a href="#" id="menu-algarve" onclick="loadCategory('algarve')">Algarve</a>
-    <a href="#" id="menu-portugal" onclick="loadCategory('portugal')">Portugal</a>
-    <a href="#" id="menu-world" onclick="loadCategory('world')">Mundo</a>
-    <a href="#" id="menu-opinion" onclick="loadCategory('opinion')">Opinião</a>
-    <a href="#" id="menu-lifestyle" onclick="loadCategory('lifestyle')">Lifestyle</a>
-    <a href="#" id="menu-environment" onclick="loadCategory('environment')">Ambiente</a>
-    <a href="#" id="menu-business" onclick="loadCategory('business')">Negócios</a>
-    
 
-    <!-- Dark mode toggle icon (aligned to the right using CSS) -->
+    <!-- Hamburger icon (visible on small screens only) -->
+    <div class="hamburger" onclick="toggleMenu()">
+      <i class="fas fa-bars"></i>
+    </div>
+    
+    <!-- Navigation links (shown normally on desktop, toggled on mobile) -->
+    <div class="nav-links" id="nav-links">
+      <!-- Navigation links for different news categories -->
+      <a href="#" id="menu-ultimaHora" onclick="loadCategory('ultimaHora')">Última Hora</a>
+      <a href="#" id="menu-algarve" onclick="loadCategory('algarve')">Algarve</a>
+      <a href="#" id="menu-portugal" onclick="loadCategory('portugal')">Portugal</a>
+      <a href="#" id="menu-world" onclick="loadCategory('world')">Mundo</a>
+      <a href="#" id="menu-opinion" onclick="loadCategory('opinion')">Opinião</a>
+      <a href="#" id="menu-lifestyle" onclick="loadCategory('lifestyle')">Lifestyle</a>
+      <a href="#" id="menu-environment" onclick="loadCategory('environment')">Ambiente</a>
+      <a href="#" id="menu-business" onclick="loadCategory('business')">Negócios</a>
+    </div>
+    
+    <!-- Right-aligned section with dark mode toggle and search bar -->
     <div class="navbar-right">
+
+      <!-- Dark mode toggle icon -->
       <i id="toggle-dark-mode" class="fas fa-moon"></i>
+
+      <!-- Search bar to filter news articles in real time -->
+      <input type="text" id="search-input" placeholder="Pesquisar Notícias" oninput="searchNews()" class="search-bar">
+
     </div>
 
-    <!-- Search bar to filter news articles in real time -->
-    <input type="text" id="search-input" placeholder="Pesquisar Notícias" oninput="searchNews()" class="search-bar">
   </div>
 
   <!-- Loading indicator (shown when fetching data) -->

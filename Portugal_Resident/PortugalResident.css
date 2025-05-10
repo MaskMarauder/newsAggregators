@@ -1,7 +1,7 @@
 /*
-  ------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------  
   GLOBAL STYLES (Applies to the entire page)
-  ------------------------------------------------------------------------------
+  ------------------------------------------------------------------------------  
 */
 
 /* Reset default margin and padding for all elements */
@@ -54,6 +54,20 @@ NAVIGATION BAR (Navbar) STYLES
   align-items: center;                  /* Vertically align the items in the navbar */
   flex-wrap: wrap;                      /* Allow items to wrap onto the next line on smaller screens */
   justify-content: space-between;       /* Distribute space between navbar items */
+}
+
+/* Hamburger icon - hidden on large screens */
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+}
+
+/* Navigation links container */
+.nav-links {
+  display: flex;
+  gap: 10px;
 }
 
 /* Navbar links */
@@ -198,28 +212,51 @@ RESPONSIVE DESIGN (Media Queries)
 
 /* Media query for screens with a maximum width of 768px (typical for tablets and smaller) */
 @media (max-width: 768px) {
-  /* On smaller screens, make the news container display news cards in a single column */
+  /* Grid layout: single column for news items */
   .news-container {
-      grid-template-columns: 1fr;       /* Single column layout */
+    grid-template-columns: 1fr;
   }
 
-  /* Adjust navbar layout on smaller screens */
+  /* Navbar adjustment on small screens */
   .navbar {
-      flex-direction: column;           /* Stack items vertically */
-      align-items: flex-start;          /* Align items to the left */
+    flex-direction: row;               /* Align all items in a single row */
+    flex-wrap: wrap;                   /* Allow items to wrap if needed */
+    align-items: center;
+    justify-content: space-between;   /* Space out the elements */
   }
 
+  /* Show hamburger icon */
+  .hamburger {
+    display: block;
+  }
+
+  /* Hide menu links by default */
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  /* Align right section (icon and search bar) in a row */
   .navbar-right {
-      margin-left: 0;                   /* Reset left margin */
-      margin-top: 10px;                 /* Add top margin for spacing */
-      width: 100%;                      /* Take full width */
-      display: flex;
-      justify-content: space-between;   /* Distribute space between icon and search */
-      margin-right: 0;                  /* Reset right margin */
+    display: flex;
+    flex-direction: row;               /* Align items horizontally */
+    align-items: center;
+    gap: 10px;                         /* Space between icon and search bar */
+    margin-top: 0;
+    width: auto;                       /* Only take the needed space */
   }
 
+  /* Make the search bar responsive to available space */
   .search-bar {
-      max-width: 100%;                  /* Make search bar take full width */
-      margin-left: 0;                   /* Reset left margin */
+    max-width: 150px;                  /* Or use 100% if you want it full-width */
+    margin-left: 0;
   }
 }
+
+

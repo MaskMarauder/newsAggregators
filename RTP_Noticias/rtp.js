@@ -94,6 +94,24 @@ async function loadCategory(category) {
   }
 }
 
+// This function toggles the visibility of the navigation links on small screens.
+// It selects the element with the ID 'nav-links' and adds or removes the 'show' class.
+// The 'show' class is used to control whether the menu is visible (e.g., when the hamburger icon is clicked).
+function toggleMenu() {
+  const navLinks = document.getElementById('nav-links');
+  navLinks.classList.toggle('show'); // toggle between showing and hiding
+}
+
+// Close the menu when a category link is clicked (on small screens)
+document.querySelectorAll('#nav-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    const navLinks = document.getElementById('nav-links');
+    if (navLinks.classList.contains('show')) {
+      navLinks.classList.remove('show');
+    }
+  });
+});
+
 // Load the "ultimas" (latest) news category by default when the page first loads.
 loadCategory('ultimas');
 

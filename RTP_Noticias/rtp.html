@@ -1,7 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="pt">
+
 <head>
+
   <meta charset="UTF-8" />
+
   <title>RTP Notícias</title>
 
   <!-- External stylesheet for page styling -->
@@ -9,29 +13,46 @@
 
   <!-- Font Awesome CDN for icon support (e.g., moon icon) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
 
   <!-- Navigation bar containing category links, dark mode toggle, and search bar -->
   <div class="navbar">
-    
-    <!-- Navigation links for different news categories -->
-    <a href="#" onclick="loadCategory('ultimas')" id="menu-ultimas">Últimas</a>
-    <a href="#" onclick="loadCategory('pais')" id="menu-pais">País</a>
-    <a href="#" onclick="loadCategory('mundo')" id="menu-mundo">Mundo</a>
-    <a href="#" onclick="loadCategory('economia')" id="menu-economia">Economia</a>
-    <a href="#" onclick="loadCategory('desporto')" id="menu-desporto">Desporto</a>
-    <a href="#" onclick="loadCategory('cultura')" id="menu-cultura">Cultura</a>
-    <a href="#" onclick="loadCategory('videos')" id="menu-videos">Vídeos</a>
-    <a href="#" onclick="loadCategory('audios')" id="menu-audios">Áudios</a>
 
-    <!-- Dark mode toggle icon (aligned to the right using CSS) -->
+    <!-- Hamburger icon (visible on small screens only) -->
+    <div class="hamburger" onclick="toggleMenu()">
+
+      <i class="fas fa-bars"></i>
+
+    </div>
+    
+    <!-- Navigation links (shown normally on desktop, toggled on mobile) -->
+    <div class="nav-links" id="nav-links">
+
+      <!-- Navigation links for different news categories -->
+      <a href="#" onclick="loadCategory('ultimas')" id="menu-ultimas">Últimas</a>
+      <a href="#" onclick="loadCategory('pais')" id="menu-pais">País</a>
+      <a href="#" onclick="loadCategory('mundo')" id="menu-mundo">Mundo</a>
+      <a href="#" onclick="loadCategory('economia')" id="menu-economia">Economia</a>
+      <a href="#" onclick="loadCategory('desporto')" id="menu-desporto">Desporto</a>
+      <a href="#" onclick="loadCategory('cultura')" id="menu-cultura">Cultura</a>
+      <a href="#" onclick="loadCategory('videos')" id="menu-videos">Vídeos</a>
+      <a href="#" onclick="loadCategory('audios')" id="menu-audios">Áudios</a>
+      
+    </div>
+    
+    <!-- Right-aligned section with dark mode toggle and search bar -->
     <div class="navbar-right">
+
+      <!-- Dark mode toggle icon -->
       <i id="toggle-dark-mode" class="fas fa-moon"></i>
+
+      <!-- Search bar to filter news articles in real time -->
+      <input type="text" id="search-input" placeholder="Pesquisar Notícias" oninput="searchNews()" class="search-bar">
+
     </div>
 
-    <!-- Search bar to filter news articles in real time -->
-    <input type="text" id="search-input" placeholder="Pesquisar Notícias" oninput="searchNews()" class="search-bar">
   </div>
 
   <!-- Loading indicator (shown when fetching data) -->
@@ -42,7 +63,9 @@
 
   <!-- JavaScript file containing logic to fetch and display news -->
   <script src="rtp.js"></script>
+
 </body>
+
 </html>
 
 
